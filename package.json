@@ -1,0 +1,18 @@
+{
+  "name": "react-three-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Dubiy/react-three-socket.git",
+  "author": "Gary <netzver@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.15.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && yarn --production=false && yarn run build"
+  }
+}
