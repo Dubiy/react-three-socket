@@ -60,6 +60,7 @@ export default class Demo extends Component {
 
         this.container.appendChild(this.renderer.domElement);
         this.start();
+        window.addEventListener("resize", this.resizeWindow);
     }
 
     start = () => {
@@ -91,9 +92,19 @@ export default class Demo extends Component {
         this.renderer.render(this.scene, this.camera);
     };
 
+    resizeWindow = () => {
+        let width = this.container.clientWidth,
+            height = this.container.clientHeight;
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(width, height);
+        console.log('resizeWindow()');
+    };
+
     componentWillUnmount() {
         this.stop();
         this.container.removeChild(this.renderer.domElement);
+        window.removeEventListener("resize", this.resizeWindow);
     }
 
     render() {
