@@ -28,6 +28,10 @@ io.on('connection', function(socket) {
     socket.emit('welcome', {hello: 'there'});
 });
 
+setInterval(() => {
+    io.emit('ping', {ping: 'pong'});
+}, 3000);
+
 http.listen(port, function () {
     console.log(`Server running at localhost:${port}`);
 });

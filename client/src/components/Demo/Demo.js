@@ -27,6 +27,10 @@ export default class Demo extends Component {
             console.log('socket.on(welcome)', data)
         });
 
+        this.socket.on('ping', data => {
+            console.log('socket.on(ping)', data)
+        });
+
         let width = this.container.clientWidth,
             height = this.container.clientHeight;
 
