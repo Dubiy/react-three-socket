@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import * as THREE from 'three'
 import OrbitControlsLib from 'three-orbit-controls'
 import './Demo.css'
+import throttle from 'lodash/throttle'
 
 const OrbitControls = OrbitControlsLib(THREE);
 
@@ -14,6 +15,8 @@ export default class Demo extends Component {
             dy: 0,
             dz: 0
         };
+
+        this.resizeWindow = throttle(this.resizeWindow, 300);
     }
 
     componentDidMount() {
