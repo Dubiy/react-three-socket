@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Link, Route, Switch } from 'react-router-dom'
+import Home from './components/Home/Home'
+import Demo from './components/Demo/Demo'
 
 class App extends Component {
     render() {
@@ -17,8 +19,8 @@ class App extends Component {
                 </header>
                 <div className='content'>
                     <Switch>
-                        <Route path='/' exact render={() => 'home'} />
-                        <Route path='/demo' render={() => 'demo'} />
+                        <Route path='/' exact component={Home} />
+                        <Route path='/demo' component={Demo} />
                     </Switch>
                 </div>
                 <footer>
