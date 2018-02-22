@@ -8,6 +8,12 @@ const OrbitControls = OrbitControlsLib(THREE);
 export default class Demo extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            dx: 0,
+            dy: 0,
+            dz: 0
+        };
     }
 
     componentDidMount() {
@@ -67,11 +73,18 @@ export default class Demo extends Component {
     };
 
     animate = () => {
-        this.cube.rotation.x += 0.01;
-        this.cube.rotation.y += 0.02;
+        this.cube.rotation.x += this.state.dx;
+        this.cube.rotation.y += this.state.dy;
+        this.cube.rotation.z += this.state.dz;
 
         this.renderScene();
         this.frameId = requestAnimationFrame(this.animate);
+    };
+
+    updateDelta = ({target}) => {
+        this.setState({
+            [target.name]: parseFloat(target.value)
+        });
     };
 
     renderScene = () => {
@@ -87,6 +100,11 @@ export default class Demo extends Component {
         return (
             <div className='threejs-app'>
                 <div className='scene' ref={container => this.container = container}/>
+                <div className='panel'>
+                    <input name='dx' type="range" min="-0.03" max="0.03" step={0.01} value={this.state.dx} onChange={this.updateDelta} />
+                    <input name='dy' type="range" min="-0.03" max="0.03" step={0.01} value={this.state.dy} onChange={this.updateDelta} />
+                    <input name='dz' type="range" min="-0.03" max="0.03" step={0.01} value={this.state.dz} onChange={this.updateDelta} />
+                </div>
             </div>
         )
     }
