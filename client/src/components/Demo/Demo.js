@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import OrbitControlsLib from 'three-orbit-controls'
 import './Demo.css'
 import throttle from 'lodash/throttle'
+import socketIOClient from "socket.io-client"
 
 const OrbitControls = OrbitControlsLib(THREE);
 
@@ -15,11 +16,17 @@ export default class Demo extends Component {
             dy: 0,
             dz: 0
         };
-
+        this.socket = false;
         this.resizeWindow = throttle(this.resizeWindow, 300);
     }
 
     componentDidMount() {
+        this.socket = socketIOClient('/');
+
+        this.socket.on("welcome", data => {
+            console.log('socket.on(welcome)', data)
+        });
+
         let width = this.container.clientWidth,
             height = this.container.clientHeight;
 
@@ -108,6 +115,7 @@ export default class Demo extends Component {
         this.stop();
         this.container.removeChild(this.renderer.domElement);
         window.removeEventListener("resize", this.resizeWindow);
+        this.socket.removeListener('welcome');
     }
 
     render() {
