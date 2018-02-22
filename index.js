@@ -34,6 +34,10 @@ io.on('connection', function(socket) {
         //send to all, except sender
         socket.broadcast.emit('update-delta', delta);
     });
+
+    socket.on('update-camera', function(camera) {
+        socket.broadcast.emit('update-camera', camera);
+    });
 });
 
 http.listen(port, function () {

@@ -31,6 +31,12 @@ export default class Demo extends Component {
             this.setState(delta);
         });
 
+        this.socket.on('update-camera', camera => {
+            this.camera.position.set(camera.position.x, camera.position.y, camera.position.z);
+            this.camera.lookAt(camera.direction.x, camera.direction.y, camera.direction.z);
+            this.camera.updateProjectionMatrix();
+        });
+
         let width = this.container.clientWidth,
             height = this.container.clientHeight;
 
@@ -41,6 +47,13 @@ export default class Demo extends Component {
         let orbit = new OrbitControls(this.camera, this.renderer.domElement);
         orbit.enableZoom = false;
         orbit.enableKeys = false;
+        orbit.addEventListener('change', throttle(() => {
+            console.log('orbit.eventListener(change)', this.camera);
+            this.socket.emit('update-camera', {
+                position: this.camera.position,
+                direction: this.camera.getWorldDirection()
+            })
+        }, 300), false);
 
         let geometry = new THREE.BoxBufferGeometry(1, 1, 1, 1, 1, 1);
         let material = new THREE.MeshPhongMaterial({
@@ -122,7 +135,7 @@ export default class Demo extends Component {
         this.stop();
         this.container.removeChild(this.renderer.domElement);
         window.removeEventListener("resize", this.resizeWindow);
-        ['welcome', 'update-delta'].forEach(name => {
+        ['welcome', 'update-delta', 'update-camera'].forEach(name => {
             this.socket.removeListener(name);
         })
     }
