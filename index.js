@@ -26,11 +26,15 @@ app.get('*', (req, res) => {
 
 io.on('connection', function(socket) {
     socket.emit('welcome', {hello: 'there'});
-});
 
-setInterval(() => {
-    io.emit('ping', {ping: 'pong'});
-}, 3000);
+    socket.on('update-delta', function(delta) {
+        //send to all
+        // io.emit('update-delta', delta);
+
+        //send to all, except sender
+        socket.broadcast.emit('update-delta', delta);
+    });
+});
 
 http.listen(port, function () {
     console.log(`Server running at localhost:${port}`);

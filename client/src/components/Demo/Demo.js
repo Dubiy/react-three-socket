@@ -27,8 +27,8 @@ export default class Demo extends Component {
             console.log('socket.on(welcome)', data)
         });
 
-        this.socket.on('ping', data => {
-            console.log('socket.on(ping)', data)
+        this.socket.on('update-delta', delta => {
+            this.setState(delta);
         });
 
         let width = this.container.clientWidth,
@@ -100,6 +100,9 @@ export default class Demo extends Component {
         this.setState({
             [target.name]: parseFloat(target.value)
         });
+        this.socket.emit('update-delta', {
+            [target.name]: parseFloat(target.value)
+        })
     };
 
     renderScene = () => {
@@ -119,7 +122,9 @@ export default class Demo extends Component {
         this.stop();
         this.container.removeChild(this.renderer.domElement);
         window.removeEventListener("resize", this.resizeWindow);
-        this.socket.removeListener('welcome');
+        ['welcome', 'update-delta'].forEach(name => {
+            this.socket.removeListener(name);
+        })
     }
 
     render() {
