@@ -3,6 +3,7 @@ const path = require('path');
 
 const app = express(),
     http = require('http').Server(app),
+    io = require('socket.io')(http),
     port = process.env.PORT || 5000;
 
 // Serve static files from the React app
@@ -21,6 +22,10 @@ app.get('/api/data', (req, res) => {
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
+
+io.on('connection', function(socket) {
+    socket.emit('welcome', {hello: 'there'});
 });
 
 http.listen(port, function () {
