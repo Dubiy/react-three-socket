@@ -14,12 +14,23 @@
   color: white;
 }
 
+.App-header nav a {
+  color: white;
+  margin: 0 5px;
+}
+
 .App-title {
   font-size: 1.5em;
 }
 
 .App-intro {
   font-size: large;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 @keyframes App-logo-spin {
